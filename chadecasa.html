@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chá de Casa Nova</title>
+<style>
+body { background-color: #9b59b6; font-family: Arial, sans-serif; color: #fff; padding: 20px; }
+h1,h2 { text-align: center; }
+.container { max-width: 600px; margin: auto; background-color: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 30px; }
+label, input, button, select { display: block; width: 100%; margin-bottom: 15px; font-size: 16px; padding: 8px; border-radius: 5px; border: none; }
+button { background-color: #fff; color: #9b59b6; font-weight: bold; cursor: pointer; }
+button:hover { background-color: #f1f1f1; }
+</style>
+</head>
+<body>
+
+<h1>Chá de Casa Nova</h1>
+
+<div class="container">
+    <h2>Digite seu nome</h2>
+    <input type="text" id="guestName" placeholder="Digite seu nome">
+    
+    <h2>Escolha seu presente</h2>
+    <select id="present">
+        <option value="">--Selecione--</option>
+        <option>Boleira de vidro</option>
+        <option>Boleira de plástico roxo ou preto</option>
+        <option>Jogo de prato</option>
+        <option>Jogo de taças</option>
+        <option>Jogo de xícaras</option>
+        <option>Kit caneca</option>
+        <option>Travessa de vidro média</option>
+        <option>Travessa de vidro grande</option>
+        <option>Travessa de vidro pequena</option>
+        <option>Panela de pressão</option>
+        <option>Jogos de pano de prato</option>
+        <option>Kit de depósitos</option>
+        <option>Jarra de vidro</option>
+        <option>Garrafa de café</option>
+        <option>Jogo de lençol</option>
+        <option>Conjunto de tapete</option>
+        <option>Kit toalha de banho</option>
+        <option>Lixeira</option>
+        <option>Kit marmita</option>
+        <option>Kit de assadeira</option>
+        <option>Forma de bolo</option>
+        <option>Cuscuzeira</option>
+        <option>Cobertor</option>
+        <option>Edredom</option>
+        <option>Kit de espátula de silicone</option>
+        <option>Kit de Potes de mantimentos de vidro com tampa de bambu</option>
+        <option>Jogo de pia</option>
+        <option>Escorredor de macarrão</option>
+        <option>Processador de alimentos</option>
+        <option>Espremedor de batata</option>
+        <option>Kit pia</option>
+        <option>Kit de tapete de banheiro</option>
+        <option>Kit depósito</option>
+        <option>Kit prato de vidro</option>
+        <option>Kit panela</option>
+        <option>Fruteira</option>
+        <option>Conjunto de tigela de vidro com tampa</option>
+        <option>Panos de chão 3 unidades</option>
+        <option>Kit lavanderia</option>
+        <option>Kit panos de pratos</option>
+        <option>Pix (ilimitado)</option>
+    </select>
+    <button onclick="choosePresent()">Escolher presente</button>
+
+    <h2>Confirmar presença</h2>
+    <button onclick="confirmPresence()">Confirmar presença</button>
+</div>
+
+<script>
+let chosen = [];
+let presentRecords = [];
+let presenceRecords = [];
+let guestName = "";
+
+function choosePresent() {
+    const nameInput = document.getElementById("guestName").value.trim();
+    const present = document.getElementById("present").value;
+
+    if(!nameInput || !present) {
+        alert("Preencha seu nome e escolha um presente.");
+        return;
+    }
+
+    guestName = nameInput; // salva o nome para confirmar presença depois
+
+    if(chosen.includes(present)) {
+        alert("Este presente já foi escolhido.");
+        return;
+    }
+
+    chosen.push(present);
+    presentRecords.push({name: guestName, present: present});
+    alert(guestName + " escolheu: " + present);
+
+    // Bloqueia a seleção do mesmo presente
+    document.getElementById("present").value = "";
+}
+
+function confirmPresence() {
+    if(!guestName) {
+        alert("Digite seu nome e escolha um presente primeiro.");
+        return;
+    }
+    if(presenceRecords.includes(guestName)){
+        alert("Presença já confirmada!");
+        return;
+    }
+    presenceRecords.push(guestName);
+    alert(guestName + " confirmou presença!");
+}
+</script>
+
+</body>
+</html>
