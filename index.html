@@ -1,120 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Chá de Casa Nova</title>
 <style>
-body { background-color: #9b59b6; font-family: Arial, sans-serif; color: #fff; padding: 20px; }
-h1,h2 { text-align: center; }
-.container { max-width: 600px; margin: auto; background-color: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 30px; }
-label, input, button, select { display: block; width: 100%; margin-bottom: 15px; font-size: 16px; padding: 8px; border-radius: 5px; border: none; }
-button { background-color: #fff; color: #9b59b6; font-weight: bold; cursor: pointer; }
-button:hover { background-color: #f1f1f1; }
+  :root {
+    --bg: #A27FFF; /* roxo suave */
+    --card: rgba(255,255,255,0.12);
+    --accent: #fff;
+    --btn-bg: #fff;
+    --btn-color: #6f2bb3;
+  }
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--accent);
+    -webkit-font-smoothing:antialiased;
+  }
+  header{padding:28px 16px 8px; text-align:center;}
+  h1{margin:0;font-size:1.9rem;}
+  .wrap{max-width:720px;margin:20px auto;padding:18px;background:var(--card);border-radius:12px;}
+  label{display:block;margin:10px 0 6px;font-weight:600;}
+  input[type="text"], select{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:1rem;
+  }
+  .row{display:flex;gap:10px;align-items:center;}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+  button{
+    background:var(--btn-bg);
+    color:var(--btn-color);
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+  }
+  .small { padding:8px 10px; font-size:0.95rem; }
+  p.note{opacity:0.9;margin:8px 0 0;font-size:0.95rem}
+  .center{ text-align:center; }
+  footer{ text-align:center; margin:10px 0 30px; color:rgba(255,255,255,0.85); font-size:0.9rem;}
+  .hint{font-size:0.88rem; opacity:0.95; margin-top:6px;}
 </style>
 </head>
 <body>
+  <header>
+    <h1>Chá de Casa Nova</h1>
+    <p class="hint">Digite seu nome uma vez, escolha o presente e confirme presença.</p>
+  </header>
 
-<h1>Chá de Casa Nova</h1>
+  <main class="wrap" aria-live="polite">
+    <label for="nome">Seu nome</label>
+    <input id="nome" type="text" placeholder="Ex: Maria da Silva" autocomplete="name">
 
-<div class="container">
-    <h2>Digite seu nome</h2>
-    <input type="text" id="guestName" placeholder="Digite seu nome">
-    
-    <h2>Escolha seu presente</h2>
+    <label for="present">Escolha um presente</label>
     <select id="present">
-        <option value="">--Selecione--</option>
-        <option>Boleira de vidro</option>
-        <option>Boleira de plástico roxo ou preto</option>
-        <option>Jogo de prato</option>
-        <option>Jogo de taças</option>
-        <option>Jogo de xícaras</option>
-        <option>Kit caneca</option>
-        <option>Travessa de vidro média</option>
-        <option>Travessa de vidro grande</option>
-        <option>Travessa de vidro pequena</option>
-        <option>Panela de pressão</option>
-        <option>Jogos de pano de prato</option>
-        <option>Kit de depósitos</option>
-        <option>Jarra de vidro</option>
-        <option>Garrafa de café</option>
-        <option>Jogo de lençol</option>
-        <option>Conjunto de tapete</option>
-        <option>Kit toalha de banho</option>
-        <option>Lixeira</option>
-        <option>Kit marmita</option>
-        <option>Kit de assadeira</option>
-        <option>Forma de bolo</option>
-        <option>Cuscuzeira</option>
-        <option>Cobertor</option>
-        <option>Edredom</option>
-        <option>Kit de espátula de silicone</option>
-        <option>Kit de Potes de mantimentos de vidro com tampa de bambu</option>
-        <option>Jogo de pia</option>
-        <option>Escorredor de macarrão</option>
-        <option>Processador de alimentos</option>
-        <option>Espremedor de batata</option>
-        <option>Kit pia</option>
-        <option>Kit de tapete de banheiro</option>
-        <option>Kit depósito</option>
-        <option>Kit prato de vidro</option>
-        <option>Kit panela</option>
-        <option>Fruteira</option>
-        <option>Conjunto de tigela de vidro com tampa</option>
-        <option>Panos de chão 3 unidades</option>
-        <option>Kit lavanderia</option>
-        <option>Kit panos de pratos</option>
-        <option>Pix (ilimitado)</option>
+      <option value="">-- Selecione um presente --</option>
+      <option>Boleira de vidro</option>
+      <option>Boleira de plástico roxo ou preto</option>
+      <option>Jogo de prato</option>
+      <option>Jogo de taças</option>
+      <option>Jogo de xícaras</option>
+      <option>Kit caneca</option>
+      <option>Travessa de vidro média</option>
+      <option>Travessa de vidro grande</option>
+      <option>Travessa de vidro pequena</option>
+      <option>Panela de pressão</option>
+      <option>Jogos de pano de prato</option>
+      <option>Kit de depósitos</option>
+      <option>Jarra de vidro</option>
+      <option>Garrafa de café</option>
+      <option>Jogo de lençol</option>
+      <option>Conjunto de tapete</option>
+      <option>Kit toalha de banho</option>
+      <option>Lixeira</option>
+      <option>Kit marmita</option>
+      <option>Kit de assadeira</option>
+      <option>Forma de bolo</option>
+      <option>Cuscuzeira</option>
+      <option>Cobertor</option>
+      <option>Edredom</option>
+      <option>Kit de espátula de silicone</option>
+      <option>Kit de Potes de mantimentos</option>
+      <option>Jogo de pia</option>
+      <option>Escorredor de macarrão</option>
+      <option>Processador de alimentos</option>
+      <option>Espremedor de batata</option>
+      <option>Kit pia</option>
+      <option>Kit de tapete de banheiro</option>
+      <option>Kit depósito</option>
+      <option>Kit prato de vidro</option>
+      <option>Kit panela</option>
+      <option>Fruteira</option>
+      <option>Conjunto de tigela de vidro</option>
+      <option>Panos de chão 3 unidades</option>
+      <option>Kit lavanderia</option>
+      <option>Kit panos de pratos</option>
+      <option>PIX acima de R$30 (pegar chave com os noivos)</option>
     </select>
-    <button onclick="choosePresent()">Escolher presente</button>
 
-    <h2>Confirmar presença</h2>
-    <button onclick="confirmPresence()">Confirmar presença</button>
-</div>
+    <div class="actions">
+      <button id="confirmBtn" class="small">Confirmar presença</button>
+      <button id="clearForm" class="small">Limpar</button>
+    </div>
+
+    <p id="msg" class="center note" style="display:none;"></p>
+    <p class="hint">Obs: os convidados não veem quem já confirmou — só o admin vê no painel seguro.</p>
+  </main>
+
+  <footer>Compartilhe este link com seus convidados via WhatsApp.</footer>
 
 <script>
-let chosen = [];
-let presentRecords = [];
-let presenceRecords = [];
-let guestName = "";
+/*
+  Lógica:
+  - Guarda registros no localStorage sob a chave 'chacasa_records'
+  - Cada registro: { name, present, time }
+  - Quando confirmar: salva e mostra mensagem "Presença confirmada!"
+*/
 
-function choosePresent() {
-    const nameInput = document.getElementById("guestName").value.trim();
-    const present = document.getElementById("present").value;
+const STORAGE_KEY = 'chacasa_records';
 
-    if(!nameInput || !present) {
-        alert("Preencha seu nome e escolha um presente.");
-        return;
-    }
-
-    guestName = nameInput; // salva o nome para confirmar presença depois
-
-    if(chosen.includes(present)) {
-        alert("Este presente já foi escolhido.");
-        return;
-    }
-
-    chosen.push(present);
-    presentRecords.push({name: guestName, present: present});
-    alert(guestName + " escolheu: " + present);
-
-    // Bloqueia a seleção do mesmo presente
-    document.getElementById("present").value = "";
+function readRecords(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
 }
 
-function confirmPresence() {
-    if(!guestName) {
-        alert("Digite seu nome e escolha um presente primeiro.");
-        return;
-    }
-    if(presenceRecords.includes(guestName)){
-        alert("Presença já confirmada!");
-        return;
-    }
-    presenceRecords.push(guestName);
-    alert(guestName + " confirmou presença!");
+function saveRecords(list){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
+
+function showMessage(text, timeout=3000){
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.style.display = 'block';
+  setTimeout(()=> el.style.display = 'none', timeout);
+}
+
+document.getElementById('confirmBtn').addEventListener('click', () => {
+  const nomeEl = document.getElementById('nome');
+  const presentEl = document.getElementById('present');
+  const name = nomeEl.value.trim();
+  const present = presentEl.value;
+
+  if(!name){
+    alert('Digite seu nome por favor.');
+    nomeEl.focus();
+    return;
+  }
+  if(!present){
+    alert('Escolha um presente.');
+    presentEl.focus();
+    return;
+  }
+
+  // read existing records
+  const records = readRecords();
+
+  // Se já confirmou com mesmo nome, bloqueia (evita confirmação duplicada)
+  const existe = records.find(r => r.name.toLowerCase() === name.toLowerCase());
+  if(existe){
+    alert('Nome já confirmado anteriormente. Se for erro, peça para o admin apagar o registro.');
+    return;
+  }
+
+  // salva novo registro
+  const novo = { name, present, time: new Date().toISOString() };
+  records.push(novo);
+  saveRecords(records);
+
+  // feedback pro convidado
+  showMessage('Presença confirmada! Obrigado por participar.');
+
+  // limpar campo present, manter nome
+  presentEl.value = '';
+});
+
+// limpar formulário (não apaga registros)
+document.getElementById('clearForm').addEventListener('click', () => {
+  document.getElementById('nome').value = '';
+  document.getElementById('present').value = '';
+  document.getElementById('msg').style.display = 'none';
+});
 </script>
-
 </body>
 </html>

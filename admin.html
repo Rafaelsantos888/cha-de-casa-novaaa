@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Painel Admin - Chá de Casa Nova</title>
+<style>
+  :root{
+    --bg:#A27FFF; --card:rgba(255,255,255,0.12); --text:#fff;
+  }
+  body{ margin:0; font-family:Arial,Helvetica,sans-serif; background:var(--bg); color:var(--text); }
+  .wrap{ max-width:900px; margin:24px auto; padding:18px; background:var(--card); border-radius:12px; }
+  h1{text-align:center;margin:6px 0 12px;}
+  #login{ max-width:360px; margin:10px auto; text-align:center; }
+  input[type="password"]{ width:100%; padding:10px; border-radius:8px; border:none; margin-bottom:10px; }
+  button{ padding:10px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:700; background:#fff; color:#6f2bb3; }
+  table{ width:100%; border-collapse:collapse; margin-top:12px; }
+  th,td{ padding:10px; border-bottom:1px solid rgba(255,255,255,0.12); text-align:left; }
+  th{ opacity:0.95; }
+  .right{ text-align:right; }
+  .tools{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .small{ padding:8px 10px; font-size:0.95rem; }
+  .muted{ opacity:0.9; font-size:0.95rem; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Painel Admin — Chá de Casa Nova</h1>
+
+    <div id="login">
+      <p class="muted">Digite a senha para acessar os registros.</p>
+      <input id="senha" type="password" placeholder="Senha admin">
+      <button id="btnLogin">Entrar</button>
+    </div>
+
+    <div id="panel" style="display:none;">
+      <div class="tools">
+        <button id="btnDownload" class="small">Baixar CSV</button>
+        <button id="btnClear" class="small">Apagar todos</button>
+      </div>
+
+      <table aria-live="polite">
+        <thead>
+          <tr><th>Nome</th><th>Presente</th><th>Data / Hora</th></tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+
+      <p class="right muted">Senha para admin: <strong>laryel161021</strong></p>
+    </div>
+  </div>
+
+<script>
+const STORAGE_KEY = 'chacasa_records';
+const ADMIN_PASS = 'laryel161021';
+
+function readRecords(){ try{ const r = localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+function saveRecords(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+
+function renderTable(){
+  const tbody = document.getElementById('tbody');
+  const recs = readRecords();
+  tbody.innerHTML = '';
+  if(recs.length === 0){
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="3" style="opacity:0.9">Nenhuma confirmação ainda.</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+  recs.forEach(r=>{
+    const tr = document.createElement('tr');
+    const date = new Date(r.time);
+    const when = date.toLocaleString();
+    tr.innerHTML = `<td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.present)}</td><td>${when}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+// login
+document.getElementById('btnLogin').addEventListener('click', ()=>{
+  const pass = document.getElementById('senha').value;
+  if(pass === ADMIN_PASS){
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    renderTable();
+  } else {
+    alert('Senha incorreta!');
+  }
+});
+
+// download CSV
+document.getElementById('btnDownload').addEventListener('click', ()=>{
+  const recs = readRecords();
+  if(!recs.length){ alert('Não há registros para baixar.'); return; }
+  const header = ['Nome','Presente','DataHora'];
+  const rows = recs.map(r => [r.name, r.present, r.time]);
+  const csv = [header, ...rows].map(r=> r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'chacasa_confirmados.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// apagar todos
+document.getElementById('btnClear').addEventListener('click', ()=>{
+  if(!confirm('Apagar todos os registros? Esta ação não pode ser desfeita no navegador.')) return;
+  saveRecords([]);
+  renderTable();
+  alert('Registros apagados.');
+});
+</script>
+</body>
+</html>
