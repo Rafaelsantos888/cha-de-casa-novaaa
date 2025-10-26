@@ -110,15 +110,13 @@
       <button id="clearForm" class="small">Limpar</button>
     </div>
 
+    <p id="msg" class="center note" style="display:none;"></p>
+    <p class="hint">Obs: os convidados não veem quem já confirmou — só o admin vê no painel seguro.</p>
+  </main>
+
+  <footer>Compartilhe este link com seus convidados via WhatsApp.</footer>
 
 <script>
-/*
-  Lógica:
-  - Guarda registros no localStorage sob a chave 'chacasa_records'
-  - Cada registro: { name, present, time }
-  - Quando confirmar: salva e mostra mensagem "Presença confirmada!"
-*/
-
 const STORAGE_KEY = 'chacasa_records';
 
 function readRecords(){
@@ -132,11 +130,10 @@ function saveRecords(list){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
-function showMessage(text, timeout=3000){
+function showMessage(text){
   const el = document.getElementById('msg');
   el.textContent = text;
-  el.style.display = 'block';
-  setTimeout(()=> el.style.display = 'none', timeout);
+  el.style.display = 'block'; // a mensagem fica visível permanentemente
 }
 
 document.getElementById('confirmBtn').addEventListener('click', () => {
@@ -156,29 +153,22 @@ document.getElementById('confirmBtn').addEventListener('click', () => {
     return;
   }
 
-  // read existing records
   const records = readRecords();
-
-  // Se já confirmou com mesmo nome, bloqueia (evita confirmação duplicada)
   const existe = records.find(r => r.name.toLowerCase() === name.toLowerCase());
   if(existe){
     alert('Nome já confirmado anteriormente. Se for erro, peça para o admin apagar o registro.');
     return;
   }
 
-  // salva novo registro
   const novo = { name, present, time: new Date().toISOString() };
   records.push(novo);
   saveRecords(records);
 
-  // feedback pro convidado
   showMessage('Presença confirmada! Obrigado por participar.');
 
-  // limpar campo present, manter nome
   presentEl.value = '';
 });
 
-// limpar formulário (não apaga registros)
 document.getElementById('clearForm').addEventListener('click', () => {
   document.getElementById('nome').value = '';
   document.getElementById('present').value = '';
@@ -187,5 +177,3 @@ document.getElementById('clearForm').addEventListener('click', () => {
 </script>
 </body>
 </html>
-
-
